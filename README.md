@@ -34,36 +34,13 @@ npx typegone
 
 ### 🚀 Usage
 
+Once installed, you can use it with:
+
 ```bash
-typeany ./my-project
+npx typeany
 ```
 
-You’ll be guided through a highly reflective process:
-
-```
-🌿 Welcome to type-any – Escape the Type Trap
-
-📁 Path to your TypeScript project: ./my-project
-
-❓ Do you believe types are just illusions? (Y/n)
-❓ Are you tired of fixing types instead of fixing bugs? (Y/n)
-❓ Should we overwrite all types with any? (Yes please)
-☠️ This action is irreversible. Are you sure? (Hell yeah)
-```
-
-Then...
-
-```
-✨ Transforming your types into inner peace...
-
-⌛ Replacing all type annotations...
-⌛ Adding @ts-ignore where necessary...
-⌛ Deleting your trust in the compiler...
-
-✅ Done. Your project is now truly JavaScript in spirit.
-
-🍃 Bro, if you’re feeling down because your code has too many bugs... go touch some grass for a bit, alright? Keep this up and you might actually lose your job.
-```
+You’ll be guided through a highly reflective process
 
 ---
 
