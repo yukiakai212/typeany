@@ -1,6 +1,6 @@
 {
   "name": "typegone",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Escape the Type Trap. Converts your TypeScript project into a type-free wonderland.",
   "bin": {
     "typeany": "./dist/type-any.cjs",
