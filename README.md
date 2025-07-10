@@ -3,9 +3,9 @@
 > A spiritual tool for developers who have seen enough of red squiggly lines.
 > "When you stare into the types, the types stare back. Just... `any` it."
 
-![npm](https://img.shields.io/npm/v/type-any?color=blue\&style=flat-square)
-![types](https://img.shields.io/badge/types-any-red?style=flat-square)
-![status](https://img.shields.io/badge/sanity-low-yellow?style=flat-square)
+![npm](https://img.shields.io/npm/v/type-any?color=blue\&style=flat-square)[https://www.npmjs.com/package/type-any]
+![types](https://img.shields.io/badge/types-any-red?style=flat-square)[https://github.com/yukiakai212/typeany]
+![status](https://img.shields.io/badge/sanity-low-yellow?style=flat-square)[https://github.com/yukiakai212/typeany]
 
 ---
 
