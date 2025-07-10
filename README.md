@@ -1,9 +1,9 @@
-## 🔀 `type-any` – Escape the Type Trap
+## 🔀 `typeany` – Escape the Type Trap
 
 > A spiritual tool for developers who have seen enough of red squiggly lines.
 > "When you stare into the types, the types stare back. Just... `any` it."
 
-[![npm](https://img.shields.io/npm/v/type-any?color=blue\&style=flat-square)](https://www.npmjs.com/package/type-any)
+[![npm](https://img.shields.io/npm/v/typegone?color=blue\&style=flat-square)](https://www.npmjs.com/package/typegone)
 [![types](https://img.shields.io/badge/types-any-red?style=flat-square)](https://github.com/yukiakai212/typeany)
 [![status](https://img.shields.io/badge/sanity-low-yellow?style=flat-square)](https://github.com/yukiakai212/typeany)
 
@@ -21,13 +21,13 @@
 ### 💠 Installation
 
 ```bash
-npm install -g type-any
+npm install -g typegone
 ```
 
 Or run directly:
 
 ```bash
-npx type-any
+npx typegone
 ```
 
 ---
@@ -35,7 +35,7 @@ npx type-any
 ### 🚀 Usage
 
 ```bash
-type-any ./my-project
+typeany ./my-project
 ```
 
 You’ll be guided through a highly reflective process:

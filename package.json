@@ -1,10 +1,11 @@
 {
-  "name": "type-any",
+  "name": "typegone",
   "version": "1.0.0",
   "description": "Escape the Type Trap. Converts your TypeScript project into a type-free wonderland.",
   "bin": {
     "typeany": "./dist/type-any.cjs",
     "type-any": "./dist/type-any.cjs"
+    "typegone": "./dist/type-any.cjs"
   },
   "type": "module",
   "scripts": {
@@ -19,6 +20,7 @@
   "keywords": [
     "typescript",
     "any",
+    "typegone",
     "troll",
     "cli",
     "converter",
