@@ -1,0 +1,58 @@
+{
+  "name": "type-any",
+  "version": "1.0.0",
+  "description": "Escape the Type Trap. Converts your TypeScript project into a type-free wonderland.",
+  "bin": {
+    "typeany": "./dist/type-any.cjs",
+    "type-any": "./dist/type-any.cjs"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "npm run build && vitest run",
+    "format": "prettier --write **/*.js",
+    "lint": "eslint src/**/*.js",
+    "build": "node esbuild.config.js"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "keywords": [
+    "typescript",
+    "any",
+    "troll",
+    "cli",
+    "converter",
+    "ts-ignore",
+    "typescript-free"
+  ],
+  "author": "Yuki_akai",
+  "homepage": "https://github.com/yukiakai212/typeany",
+  "engines": {
+    "node": ">= 16"
+  },
+  "maintainers": [
+    {
+      "name": "Yuki_akai",
+      "homepage": "https://github.com/yukiakai212"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yukiakai212/typeany.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yukiakai212/typeany/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.25.6",
+    "eslint": "^9.30.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "inquirer": "^12.7.0"
+  }
+}
