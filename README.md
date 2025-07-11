@@ -42,7 +42,8 @@ import { defineTypegoneConfig } from "typegone";
 export default defineTypegoneConfig({
   include: ["src/**/*.{ts,tsx}"],
   exclude: ["**/node_modules/**", "**/dist/**"],
-  overwrite: true,
+  overwrite: false,
+  outDir: './build', // Output folder, files will be written here with the same structure
   verbose: true,
 
   convertJsDoc: true,     // Replace `{string}` → `{any}` in JSDoc
