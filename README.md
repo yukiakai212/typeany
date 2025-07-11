@@ -8,8 +8,8 @@
 
 > Destroy types like a pro. Bring chaos to TypeScript.
 
-`typegone` is a CLI tool that **replaces all TypeScript type annotations with `any`**, including JSDoc types.  
-It’s designed for rebels, lazy developers, migration scripts, or anyone who just wants to get stuff done — fast.
+`typegone` is a CLI tool that **replaces all TypeScript type annotations with `any`**, including JSDoc types.
+Despite replacing all types, it does **not modify the logic** of your code.
 
 ---
 
@@ -110,19 +110,19 @@ function greet(name: any): any {
 |--------------------|-----------|------------------------------------------------------------------------------|
 | `include`          | string[]  | Glob patterns to include (default: `src/**/*.{ts,tsx}`)                      |
 | `exclude`          | string[]  | Glob patterns to exclude                                                     |
-| `overwrite`        | boolean   | Whether to overwrite with modified files (dangerous bro, dont use it)                  |
+| `overwrite`        | boolean   | Overwrite original files with modified ones (use with caution)               |
 | `verbose`          | boolean   | Log each file being changed                                                  |
 | `convertJsDoc`     | boolean   | Replace JSDoc `{type}` with `{any}`                                          |
 | `removeJsDocType`  | boolean   | Strip JSDoc types entirely instead of replacing                              |
-| `aggressive`       | boolean   | Remove generics and inferred types (⚠️ destructive)                          |
-| `outDir`           | string    | Output directory. If set, files will be written here with the same structure |
+| `aggressive`       | boolean   | Remove generics and inferred types                                           |
+| `outDir`           | string    | Output directory. Files will be written here with the same folder structure  |
 
 
 ---
 
 ## 🤔 Why would you use this?
 
-- Migrating JavaScript to TypeScript with minimal effort
+- Converting plain JavaScript projects to TypeScript with permissive `any` types
 - Temporarily nuke types in a large codebase
 - Generate raw/untyped output for AI tools or analysis
 - Troll your teammates on a Friday 🤡

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { Project, SyntaxKind, ts } from 'ts-morph';
+import { Project, SyntaxKind, ts, AsExpression, Node } from 'ts-morph';
 import glob from 'fast-glob';
 import { TypegoneConfig } from './types.js';
 import { logger } from './logger.js';
@@ -43,11 +43,14 @@ export async function runTypegone(config: TypegoneConfig) {
 
       // Remove generic type params (if aggressive)
       if (config.aggressive && node.getKind() === SyntaxKind.TypeParameter) {
-        node.remove();
+        const typeParamNode = node.asKind(SyntaxKind.TypeParameter)!;
+        logger.debug(`Changed ${typeParamNode.getText()} to any`);
+        typeParamNode.remove();
       }
       for (const parent of typeNodesToReplace) {
         logger.debug(`Changed ${parent.getText()} to any`);
-        parent.setType('any');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (parent as any).setType('any');
       }
       for (const asExpr of asExpressionsToFix) {
         logger.debug(`Changed ${asExpr.getText()} to any`);

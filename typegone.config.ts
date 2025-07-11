@@ -1,4 +1,4 @@
-import { defineTypegoneConfig } from './src/config.js';
+import { defineTypegoneConfig } from 'typegone';
 
 export default defineTypegoneConfig({
   include: ['gone/**/code.{ts,tsx}'],
@@ -7,5 +7,5 @@ export default defineTypegoneConfig({
   aggressive: true,
   overwrite: false,
   outDir: 'typegone',
-  verbose: false,
+  verbose: true,
 });
