@@ -23,7 +23,7 @@ export async function loadTypegoneConfig(): Promise<TypegoneConfig> {
   let configFile = configPath;
   let tempfile;
   if (path.extname(configPath) === '.ts') {
-    tempfile = path.join(dirname(), 'tempbuild.cjs');
+    tempfile = path.join(dirname(), 'build.temp.cjs');
     buildSync({
       entryPoints: [configPath],
       outfile: tempfile,
@@ -36,9 +36,10 @@ export async function loadTypegoneConfig(): Promise<TypegoneConfig> {
     });
     configFile = tempfile;
   }
-  const { default: imported } = await import(pathToFileURL(configFile).href);
+  let { default: imported } = await import(pathToFileURL(configFile).href);
+  if (imported.default) imported = imported.default;
   if (tempfile && fs.existsSync(tempfile)) fs.unlinkSync(path.resolve(tempfile));
-  imported.default.rootDir = imported.default.rootDir || path.dirname(configPath);
-  imported.default.outDir = imported.default.outDir || './typegone';
-  return imported.default;
+  imported.rootDir = imported.rootDir || path.dirname(configPath);
+  imported.outDir = imported.outDir || './typegone';
+  return imported;
 }

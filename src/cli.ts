@@ -1,14 +1,11 @@
 #!/usr/bin/env node
+import { enableVerbose } from './logger.js';
 
 import { loadTypegoneConfig } from './config.js';
 import { runTypegone } from './runner.js';
-import { enableVerbose } from './logger.js';
 
-export const typeGone = async () => {
+(async () => {
   const config = await loadTypegoneConfig();
   if (config.verbose) enableVerbose();
   await runTypegone(config);
-};
-(async () => {
-  await typeGone();
 })();

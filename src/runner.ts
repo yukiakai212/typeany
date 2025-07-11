@@ -6,6 +6,7 @@ import { TypegoneConfig } from './types.js';
 import { logger } from './logger.js';
 
 export async function runTypegone(config: TypegoneConfig) {
+  logger.debug(config);
   const project = new Project({ useInMemoryFileSystem: false });
 
   const files = await glob(config.include ?? ['src/**/*.{ts,tsx}'], {
