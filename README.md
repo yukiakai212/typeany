@@ -128,6 +128,12 @@ function greet(name: any): any {
 
 ---
 
+## 📦 Changelog
+
+See full release notes in [CHANGELOG.md][changelog-url]
+
+---
+
 ## 📄 License
 
 MIT © 2025 — Made with ❤️ by [@yukiakai](https://github.com/yukiakai212)
