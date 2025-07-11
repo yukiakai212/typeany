@@ -109,7 +109,7 @@ function greet(name: any): any {
 |--------------------|-----------|------------------------------------------------------------------------------|
 | `include`          | string[]  | Glob patterns to include (default: `src/**/*.{ts,tsx}`)                      |
 | `exclude`          | string[]  | Glob patterns to exclude                                                     |
-| `overwrite`        | boolean   | Whether to save modified files (dangerous bro, dont use it)                  |
+| `overwrite`        | boolean   | Whether to overwrite with modified files (dangerous bro, dont use it)                  |
 | `verbose`          | boolean   | Log each file being changed                                                  |
 | `convertJsDoc`     | boolean   | Replace JSDoc `{type}` with `{any}`                                          |
 | `removeJsDocType`  | boolean   | Strip JSDoc types entirely instead of replacing                              |
