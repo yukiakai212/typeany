@@ -1,77 +1,146 @@
-## 🔀 `typeany` – Escape the Type Trap
+# 🧨 typegone
 
-> A spiritual tool for developers who have seen enough of red squiggly lines.
-> "When you stare into the types, the types stare back. Just... `any` it."
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-downloads-url]
 
-[![npm](https://img.shields.io/npm/v/typegone?color=blue\&style=flat-square)](https://www.npmjs.com/package/typegone)
-[![types](https://img.shields.io/badge/types-any-red?style=flat-square)](https://github.com/yukiakai212/typeany)
-[![status](https://img.shields.io/badge/sanity-low-yellow?style=flat-square)](https://github.com/yukiakai212/typeany)
+[![Build Status][github-build-url]][github-url]
+[![codecov][codecov-image]][codecov-url]
 
----
+> Destroy types like a pro. Bring chaos to TypeScript.
 
-### ✨ Features
-
-* 🔄 Transforms your entire TypeScript project into `any`-based serenity.
-* 🧘 Freedom from types, interfaces, and compile-time correctness.
-* ⚙️ Interactive CLI to help you reflect deeply on your coding journey.
-* 🐽 Pretends to be a serious tool. You’ll pretend to be a serious dev.
+`typegone` is a CLI tool that **replaces all TypeScript type annotations with `any`**, including JSDoc types.  
+It’s designed for rebels, lazy developers, migration scripts, or anyone who just wants to get stuff done — fast.
 
 ---
 
-### 💠 Installation
+## 🚀 Features
+
+- ✅ Replace all type annotations (`: string`, `: number`, etc.) with `: any`
+- ✅ Convert `as Something` to `as any`
+- ✅ Wipe out generics like `<T>` (optional)
+- ✅ Convert or remove JSDoc `{type}` annotations
+- ✅ File-based config (`typegone.config.ts` or `.js`)
+- ✅ Non-destructive: logic is preserved, just types are nuked
+
+---
+
+## 🔧 Usage
+
+### 1. Install
 
 ```bash
-npm install -g typegone
+npm install -D typegone
 ```
 
-Or run directly:
+### 2. Create a config file
+
+Example `typegone.config.ts`:
+
+```ts
+import { defineTypegoneConfig } from "typegone";
+
+export default defineTypegoneConfig({
+  include: ["src/**/*.{ts,tsx}"],
+  exclude: ["**/node_modules/**", "**/dist/**"],
+  overwrite: true,
+  verbose: true,
+
+  convertJsDoc: true,     // Replace `{string}` → `{any}` in JSDoc
+  removeJsDocType: false, // If true, remove types entirely from JSDoc
+  aggressive: false       // Remove generics and inferred types
+  
+});
+```
+
+> You can also use `typegone.config.js` for non-TypeScript projects.
+
+---
+
+### 3. Run it
 
 ```bash
 npx typegone
 ```
 
+> It will auto-detect your config file and apply transformations.
+
 ---
 
-### 🚀 Usage
+## 🧪 Example
 
-Once installed, you can use it with:
+### Before:
 
-```bash
-npx typeany
+```ts
+interface User {
+  name: string;
+  age: number;
+}
+
+/**
+ * @param {string} name
+ * @returns {number}
+ */
+function greet(name: string): number {
+  return name.length;
+}
 ```
 
-You’ll be guided through a highly reflective process
+### After:
+
+```ts
+interface User {
+  [key: string]: any;
+}
+
+/**
+ * @param {any} name
+ * @returns {any}
+ */
+function greet(name: any): any {
+  return name.length;
+}
+```
 
 ---
 
-### 💡 Why?
+## ⚙️ Configuration Options
 
-Because sometimes:
+| Option             | Type      | Description                                                                  |
+|--------------------|-----------|------------------------------------------------------------------------------|
+| `include`          | string[]  | Glob patterns to include (default: `src/**/*.{ts,tsx}`)                      |
+| `exclude`          | string[]  | Glob patterns to exclude                                                     |
+| `overwrite`        | boolean   | Whether to save modified files (dangerous bro, dont use it)                  |
+| `verbose`          | boolean   | Log each file being changed                                                  |
+| `convertJsDoc`     | boolean   | Replace JSDoc `{type}` with `{any}`                                          |
+| `removeJsDocType`  | boolean   | Strip JSDoc types entirely instead of replacing                              |
+| `aggressive`       | boolean   | Remove generics and inferred types (⚠️ destructive)                          |
+| `outDir`           | string    | Output directory. If set, files will be written here with the same structure |
 
-* You don’t want types, you want peace.
-* You don't want `strictNullChecks`, you want `null`.
-* You don’t want inference, you want intuition.
-
----
-
-### 🚅 Limitations
-
-* Won’t actually fix your bugs.
-* Might attract judgement from TypeScript zealots.
-* May cause feelings of guilt, shame, and eventual enlightenment.
 
 ---
 
-### 🤝 Contributing
+## 🤔 Why would you use this?
 
-Wanna help?
-
-* No types allowed in PRs.
-* All `interface` must become `any`.
-* Bonus points if you remove `eslint`.
+- Migrating JavaScript to TypeScript with minimal effort
+- Temporarily nuke types in a large codebase
+- Generate raw/untyped output for AI tools or analysis
+- Troll your teammates on a Friday 🤡
 
 ---
 
-### 📄 License
+## 📄 License
 
-MIT [Yuki](https://github.com/yukiakai212/) – because even legal documents can have `any`.
+MIT © 2025 — Made with ❤️ by [@yukiakai](https://github.com/yukiakai212)
+
+---
+
+
+[npm-downloads-image]: https://badgen.net/npm/dm/typegone
+[npm-downloads-url]: https://www.npmjs.com/package/typegone
+[npm-url]: https://www.npmjs.com/package/typegone
+[npm-version-image]: https://badgen.net/npm/v/typegone
+[github-build-url]: https://github.com/yukiakai212/typegone/actions/workflows/build.yml/badge.svg
+[github-url]: https://github.com/yukiakai212/typegone/
+[codecov-image]: https://codecov.io/gh/yukiakai212/typegone/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/yukiakai212/typegone
+[changelog-url]: https://github.com/yukiakai212/typegone/blob/main/CHANGELOG.md
