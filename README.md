@@ -19,7 +19,7 @@ It’s designed for rebels, lazy developers, migration scripts, or anyone who ju
 - ✅ Convert `as Something` to `as any`
 - ✅ Wipe out generics like `<T>` (optional)
 - ✅ Convert or remove JSDoc `{type}` annotations
-- ✅ File-based config (`typegone.config.ts` or `.js`)
+- ✅ File-based config (`typegone.config.js` or `.ts`)
 - ✅ Non-destructive: logic is preserved, just types are nuked
 
 ---
@@ -34,9 +34,9 @@ npm install -D typegone
 
 ### 2. Create a config file
 
-Example `typegone.config.ts`:
+Example `typegone.config.js`:
 
-```ts
+```js
 import { defineTypegoneConfig } from "typegone";
 
 export default defineTypegoneConfig({
@@ -52,7 +52,7 @@ export default defineTypegoneConfig({
 });
 ```
 
-> You can also use `typegone.config.js` for non-TypeScript projects.
+> You can also use `typegone.config.ts` for TypeScript projects.
 
 ---
 
