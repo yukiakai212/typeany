@@ -1,5 +1,11 @@
 # typegone
 
+## 1.2.0
+
+### Minor Changes
+
+- b556cce: Support convert typescript project to js project
+
 ## 1.1.1
 
 ### Patch Changes
