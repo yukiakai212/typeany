@@ -17,6 +17,7 @@ Despite replacing all types, it does **not modify the logic** of your code.
 ## 🚀 Features
 
 - ✅ Replace all type annotations (`: string`, `: number`, etc.) with `: any`
+- ✅ Remove type annotations entirely (make it pure JavaScript)
 - ✅ Convert `as Something` to `as any`
 - ✅ Wipe out generics like `<T>`
 - ✅ Convert or remove JSDoc `{type}` annotations
