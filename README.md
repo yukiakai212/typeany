@@ -120,7 +120,8 @@ function greet(name: string): number {
 
 ```ts
 interface User {
-  [key: string]: any;
+  name: any;
+  age: any;
 }
 
 /**
