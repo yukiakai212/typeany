@@ -6,10 +6,11 @@
 [![Build Status][github-build-url]][github-url]
 [![codecov][codecov-image]][codecov-url]
 
-> Destroy types like a pro. Bring chaos to TypeScript.
+> TypeScript is just JavaScript in a cosplay.
 
-`typegone` is a CLI tool that **replaces all TypeScript type annotations with `any`**, including JSDoc types.
+`typegone` is a CLI tool that **replaces all TypeScript type annotations with `any`** or **removes all TypeScript types**, including JSDoc types -  effectively turning your TS into JS.
 Despite replacing all types, it does **not modify the logic** of your code.
+- Can be used to simplify TypeScript into vanilla JavaScript by stripping out all type-related syntax — useful for prototyping, analysis, or tool integration.
 
 ---
 
@@ -17,7 +18,7 @@ Despite replacing all types, it does **not modify the logic** of your code.
 
 - ✅ Replace all type annotations (`: string`, `: number`, etc.) with `: any`
 - ✅ Convert `as Something` to `as any`
-- ✅ Wipe out generics like `<T>` (optional)
+- ✅ Wipe out generics like `<T>`
 - ✅ Convert or remove JSDoc `{type}` annotations
 - ✅ File-based config (`typegone.config.js` or `.ts`)
 - ✅ Non-destructive: logic is preserved, just types are nuked
@@ -34,9 +35,15 @@ npm install -D typegone
 
 ### 2. Create a config file
 
+- ✅ Supported extensions: `.ts`, `.js`, `.cjs`, `.mjs`
+- TypeGone will automatically detect the config file based on these extensions.
+
 Example `typegone.config.js`:
 
+### ESM
+
 ```js
+// With defineTypegoneConfig
 import { defineTypegoneConfig } from "typegone";
 
 export default defineTypegoneConfig({
@@ -51,9 +58,31 @@ export default defineTypegoneConfig({
   aggressive: false       // Remove generics and inferred types
   
 });
+
+// Or plain object export
+export default {
+  include: ["src/**/*.{ts,tsx}"],
+  exclude: ["**/node_modules/**", "**/dist/**"]
+};
 ```
 
-> You can also use `typegone.config.ts` for TypeScript projects.
+### CommonJS
+
+```js
+// With defineTypegoneConfig
+const { defineTypegoneConfig } = require("typegone");
+
+module.exports = defineTypegoneConfig({
+  include: ["src/**/*.{ts,js}"],
+  exclude: ["**/node_modules/**", "**/dist/**"]
+});
+
+// Or plain object export
+module.exports = {
+  include: ["src/**/*.{ts,tsx}"],
+  exclude: ["**/node_modules/**", "**/dist/**"]
+};
+```
 
 ---
 
@@ -113,8 +142,8 @@ function greet(name: any): any {
 | `overwrite`        | boolean   | Overwrite original files with modified ones (use with caution)               |
 | `verbose`          | boolean   | Log each file being changed                                                  |
 | `convertJsDoc`     | boolean   | Replace JSDoc `{type}` with `{any}`                                          |
-| `removeJsDocType`  | boolean   | Strip JSDoc types entirely instead of replacing                              |
-| `aggressive`       | boolean   | Remove generics and inferred types                                           |
+| `removeJsDocType`  | boolean   | Remove all JSDoc comments that declare types (e.g. `@param`, `@returns`)     |
+| `stripTypes`       | boolean   | Remove all type annotations instead of replacing them with `any`             |
 | `outDir`           | string    | Output directory. Files will be written here with the same folder structure  |
 
 
@@ -122,7 +151,8 @@ function greet(name: any): any {
 
 ## 🤔 Why would you use this?
 
-- Converting plain JavaScript projects to TypeScript with permissive `any` types
+- Converting JavaScript projects to TypeScript with permissive `any` types
+- Converting TypeScript projects back to plain JavaScript
 - Temporarily nuke types in a large codebase
 - Generate raw/untyped output for AI tools or analysis
 - Troll your teammates on a Friday 🤡

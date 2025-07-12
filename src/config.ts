@@ -13,12 +13,15 @@ export function defineTypegoneConfig(config: TypegoneConfig): TypegoneConfig {
 }
 
 export async function loadTypegoneConfig(): Promise<TypegoneConfig> {
-  const configPath = findUp(['typegone.config.ts', 'typegone.config.js'], {
-    includeMatchedPath: true,
-  });
+  const configPath = findUp(
+    ['typegone.config.ts', 'typegone.config.js', 'typegone.config.cjs', 'typegone.config.mjs'],
+    {
+      includeMatchedPath: true,
+    },
+  );
 
   if (!configPath || !fs.existsSync(configPath)) {
-    throw new Error('❌ typegone.config.js/ts not found in project root.');
+    throw new Error('❌ typegone.config.js not found in project root.');
   }
   let configFile = configPath;
   let tempfile;

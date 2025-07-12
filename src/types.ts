@@ -9,5 +9,5 @@ export interface TypegoneConfig {
   convertJsDoc?: boolean; // Convert {string} → {any}
   removeJsDocType?: boolean; // Delete JSDoc type
 
-  aggressive?: boolean; // Delete type inference if have (dangerous)
+  stripTypes?: boolean; // Remove all type annotations instead of replacing with `any`
 }

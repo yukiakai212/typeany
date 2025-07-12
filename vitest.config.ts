@@ -6,9 +6,12 @@ export default defineConfig({
     environment: 'node',
     testTimeout: 120000,
     include: ['__tests__/*.test.js'],
-    exclude: ['**.temp.cjs'],
     coverage: {
       provider: 'v8',
+    },
+    sequence: {
+      shuffle: false,
+      concurrent: false,
     },
   },
 });

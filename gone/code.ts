@@ -23,6 +23,10 @@ export function wrap<T>(value: T): T {
 
 export class A {
   name: string;
+  age: number;
+  a(x: string): boolean {
+    return true;
+  }
 }
 export const data = { name: 'a', age: 10 };
 export const aUser: User = data as User;

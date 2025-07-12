@@ -6,7 +6,9 @@ import { TypegoneConfig } from './types.js';
 import { logger } from './logger.js';
 
 export async function runTypegone(config: TypegoneConfig) {
-  logger.debug(config);
+  for (const key of Object.keys(config)) {
+    logger.debug(`Config with ${key}: ${config[key]}`);
+  }
   const project = new Project({ useInMemoryFileSystem: false });
 
   const files = await glob(config.include ?? ['src/**/*.{ts,tsx}'], {
@@ -21,15 +23,25 @@ export async function runTypegone(config: TypegoneConfig) {
 
   for (const filePath of files) {
     const sourceFile = project.addSourceFileAtPath(filePath);
+    logger.debug(`Compile: ${filePath} `);
 
     // Replace all explicit type annotations with "any"
     sourceFile.forEachDescendant((node) => {
       const typeNodesToReplace: Node[] = [];
+      const indexSigToReplace: Node[] = [];
       const asExpressionsToFix: AsExpression[] = [];
       //const typeParamsToRemove: Node[] = [];
 
-      if (ts.isTypeNode(node.compilerNode) && node.getKind() !== SyntaxKind.AnyKeyword) {
+      if (node.getKind() === SyntaxKind.IndexSignature) {
+        indexSigToReplace.push(node);
+      } else if (ts.isTypeNode(node.compilerNode) && node.getKind() !== SyntaxKind.AnyKeyword) {
         const parent = node.getParent();
+        const grandParent = parent.getParent();
+        if (grandParent?.getKind() === SyntaxKind.IndexSignature) {
+          logger.debug(`🔥 Skipped parameter inside IndexSignature: ${parent.getText()}`);
+          return;
+        }
+
         if (parent && 'setType' in parent) {
           typeNodesToReplace.push(parent);
         }
@@ -42,20 +54,50 @@ export async function runTypegone(config: TypegoneConfig) {
         asExpressionsToFix.push(asExpr);
       }
 
-      // Remove generic type params (if aggressive)
-      if (config.aggressive && node.getKind() === SyntaxKind.TypeParameter) {
+      // Remove generic type params
+      if (node.getKind() === SyntaxKind.TypeParameter) {
         const typeParamNode = node.asKind(SyntaxKind.TypeParameter)!;
         logger.debug(`Changed ${typeParamNode.getText()} to any`);
         typeParamNode.remove();
       }
+      for (const sig of indexSigToReplace) {
+        const indexSig = sig.asKind(SyntaxKind.IndexSignature);
+        if (config.stripTypes) {
+          logger.debug(`Stripped type from index signature: ${indexSig.getText()}`);
+          indexSig.removeReturnType();
+          const param = node.getFirstChildByKind(SyntaxKind.Parameter);
+          if (!param?.getName()) continue;
+          sig.replaceWithText(param.getName());
+        } else {
+          logger.debug(`Changed index signature return type to any: ${indexSig.getText()}`);
+          indexSig.setReturnType('string');
+        }
+      }
       for (const parent of typeNodesToReplace) {
-        logger.debug(`Changed ${parent.getText()} to any`);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (parent as any).setType('any');
+        if (config.stripTypes) {
+          logger.debug(`Stripped type from: ${parent.getText()}`);
+
+          if ('removeType' in parent && typeof parent.removeType === 'function') {
+            parent.removeType();
+          } else {
+            parent.setType('');
+          }
+        } else {
+          logger.debug(`Changed ${parent.getText()} to any`);
+
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (parent as any).setType('any');
+        }
       }
       for (const asExpr of asExpressionsToFix) {
-        logger.debug(`Changed ${asExpr.getText()} to any`);
-        asExpr.getTypeNode()?.replaceWithText('any');
+        if (config.stripTypes) {
+          logger.debug(`Stripped as-expression: ${asExpr.getText()}`);
+          const exprText = asExpr.getExpression().getText();
+          asExpr.replaceWithText(exprText);
+        } else {
+          logger.debug(`Changed ${asExpr.getText()} to any`);
+          asExpr.getTypeNode()?.replaceWithText('any');
+        }
       }
     });
 
@@ -76,7 +118,9 @@ export async function runTypegone(config: TypegoneConfig) {
         );
 
         const returnTypeNode = fn.getReturnTypeNode();
-        if (returnTypeNode && returnTypeNode.getText() !== 'any') {
+        if (config.stripTypes) {
+          node.removeReturnType();
+        } else if (returnTypeNode && returnTypeNode.getText() !== 'any') {
           logger.debug(`Change return type: ${returnTypeNode.getText()} → any`);
           returnTypeNode.replaceWithText('any');
         } else {
@@ -91,8 +135,10 @@ export async function runTypegone(config: TypegoneConfig) {
         const varDecl = node.asKindOrThrow(SyntaxKind.VariableDeclaration);
 
         const typeNode = varDecl.getTypeNode();
-
-        if (typeNode) {
+        if (config.stripTypes) {
+          logger.debug(`Removed type annotation from variable: ${node.getName()}`);
+          node.removeType();
+        } else if (typeNode) {
           if (typeNode.getText() !== 'any') {
             logger.debug(`Changed var type ${varDecl.getName()} to any:`);
             typeNode.replaceWithText('any');
@@ -113,8 +159,10 @@ export async function runTypegone(config: TypegoneConfig) {
         if (param.getNameNode().getKind() === SyntaxKind.ObjectBindingPattern) return;
 
         const typeNode = param.getTypeNode();
-
-        if (typeNode && typeNode.getText() !== 'any') {
+        if (config.stripTypes) {
+          logger.debug(`Removed type annotation from parameter variable: ${node.getName()}`);
+          node.removeType();
+        } else if (typeNode && typeNode.getText() !== 'any') {
           logger.debug(`Param ${param.getName()} type changed to any`);
           typeNode.replaceWithText('any');
         } else if (!typeNode) {
@@ -124,31 +172,69 @@ export async function runTypegone(config: TypegoneConfig) {
       }
     });
 
-    // Replace interface members with [key: string]: any
+    // Replace interface members with any
     sourceFile.getInterfaces().forEach((iface) => {
-      iface.getMembers().forEach((m) => m.remove());
-      iface.addIndexSignature({
-        keyName: 'key',
-        keyType: 'string',
-        returnType: 'any',
+      iface.getMembers().forEach((member) => {
+        if (Node.isPropertySignature(member)) {
+          const typeNode = member.getTypeNode();
+
+          if (config.stripTypes) {
+            if (typeNode) {
+              member.removeType(); // remove : type
+            }
+          } else {
+            if (typeNode) {
+              typeNode.replaceWithText('any');
+            } else {
+              member.setType('any'); // set if not have type
+            }
+          }
+        }
       });
     });
 
     // Replace type aliases with 'any'
     sourceFile.getTypeAliases().forEach((alias) => {
-      alias.setType('any');
+      if (config.stripTypes) {
+        logger.debug(`Removed type alias: ${alias.getName()}`);
+        alias.remove(); //....
+      } else {
+        alias.setType('any');
+      }
     });
 
     // Process JSDoc types
     if (config.convertJsDoc || config.removeJsDocType) {
-      const regex = /\{[^}]+\}/g;
-      const replacement = config.removeJsDocType ? '' : '{any}';
       const replacements: { pos: number; end: number; updated: string }[] = [];
       sourceFile.getStatementsWithComments().forEach((stmt) => {
         const leading = stmt.getLeadingCommentRanges();
         leading.forEach((range) => {
           const comment = range.getText();
-          const updated = comment.replace(regex, replacement);
+
+          if (config.removeJsDocType) {
+            // Delete comment @param, @return, @type
+            const isTypeDoc = /@param|@returns?|@type/.test(comment);
+            if (isTypeDoc) {
+              replacements.push({
+                pos: range.getPos(),
+                end: range.getPos() + range.getWidth(),
+                updated: '', // xóa trắng
+              });
+            }
+          } else if (config.convertJsDoc) {
+            // Change {Type} → {any}
+            const updated = comment.replace(/\{[^}]+\}/g, '{any}');
+            if (comment !== updated) {
+              replacements.push({
+                pos: range.getPos(),
+                end: range.getPos() + range.getWidth(),
+                updated,
+              });
+            }
+          }
+
+          /*
+		  const updated = comment.replace(regex, replacement);
 
           if (comment !== updated) {
             replacements.push({
@@ -157,6 +243,7 @@ export async function runTypegone(config: TypegoneConfig) {
               updated,
             });
           }
+		  */
         });
       });
       for (const { pos, end, updated } of replacements) {

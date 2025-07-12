@@ -1,5 +1,6 @@
 export interface User {
-    [key: string]: any;
+  name: any;
+  age: any;
 }
 
 /**
@@ -22,6 +23,10 @@ export function wrap(value: any): any {
 
 export class A {
   name: any;
+  age: any;
+  a(x: any): any {
+    return true;
+  }
 }
 export const data: any = { name: 'a', age: 10 };
 export const aUser: any = data as any;

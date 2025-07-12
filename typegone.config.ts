@@ -1,10 +1,11 @@
 import { defineTypegoneConfig } from './src/index.js';
 
 export default defineTypegoneConfig({
-  include: ['gone/**/code.{ts,tsx}'],
+  include: ['gone/**/*.{ts,tsx}'],
   exclude: ['**/node_modules/**'],
   convertJsDoc: true,
-  aggressive: true,
+  //removeJsDocType: true,
+  stripTypes: false,
   overwrite: false,
   outDir: 'typegone',
   verbose: true,
