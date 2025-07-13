@@ -34,11 +34,19 @@ npm install -D typegone
 
 ---
 
-### 2. Configuration - Create a config file
+### 2. Configuration -  Create a `typegone.config.*` file
 
-TypeGone will automatically detect a config file with one of the following extensions:
+TypeGone will automatically detect a configuration file named `typegone.config` with one of the following extensions:
 
 - `.ts`, `.js`, `.cjs`, `.mjs`
+
+> 📍 **Important**: This file must be located at the **root of your project** (next to your `package.json`).
+
+For example:
+- `typegone.config.ts`
+- `typegone.config.js`
+- `typegone.config.cjs`
+- `typegone.config.mjs`
 
 You can define your config using either:
 - A **plain object**
