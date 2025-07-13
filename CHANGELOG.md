@@ -1,5 +1,11 @@
 # typegone
 
+## 1.2.1
+
+### Patch Changes
+
+- 0331eef: Support parameter destructuring
+
 ## 1.2.0
 
 ### Minor Changes
