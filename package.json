@@ -1,7 +1,7 @@
 {
   "name": "typegone",
   "version": "1.2.1",
-  "description": "Escape the Type Trap. Converts your TypeScript project into a type-free wonderland.",
+  "description": "Convert TypeScript to plain JavaScript by stripping all types and JSDoc annotations.",
   "type": "module",
   "main": "./dist/index.js",
   "exports": {
