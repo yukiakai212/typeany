@@ -8,7 +8,7 @@
 
 > TypeScript is just JavaScript in a cosplay. `typegone` makes it real again.
 
-`typegone` is a compile-time conversion tool that **replaces all TypeScript type annotations with `any`**, or **removes them entirely**, including types from JSDoc — effectively turning your TypeScript into plain JavaScript.
+`typegone` is a codemod that **replaces all TypeScript type annotations with `any`**, or **removes them entirely**, including types from JSDoc — effectively turning your TypeScript back into plain JavaScript.
 
 ---
 
