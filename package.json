@@ -1,6 +1,6 @@
 {
   "name": "typegone",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Escape the Type Trap. Converts your TypeScript project into a type-free wonderland.",
   "type": "module",
   "main": "./dist/index.js",
