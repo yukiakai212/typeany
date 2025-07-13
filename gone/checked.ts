@@ -39,3 +39,8 @@ export let ax: any;
 const fna: any = (a: any): any => {
   return a;
 };
+export const { x: z, y }: any = { x: 10, y: 20 } as any;
+export const { x: z, y }: any = { x: 10, y: 20 };
+function fd({ x: y, z }: any, [a, b]: any): any {
+  return true;
+}

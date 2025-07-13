@@ -8,6 +8,7 @@ export default defineConfig({
     include: ['__tests__/*.test.js'],
     coverage: {
       provider: 'v8',
+      include: ['src/**'],
     },
     sequence: {
       shuffle: false,

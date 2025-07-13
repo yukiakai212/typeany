@@ -39,3 +39,8 @@ export let ax;
 const fna = (a) => {
   return a;
 };
+export const { x: z, y } = { x: 10, y: 20 } as object;
+export const { x: z, y }: { x: string; y } = { x: 10, y: 20 };
+function fd({ x: y, z }, [a, b]) {
+  return true;
+}

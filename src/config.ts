@@ -26,7 +26,7 @@ export async function loadTypegoneConfig(): Promise<TypegoneConfig> {
   let configFile = configPath;
   let tempfile;
   if (path.extname(configPath) === '.ts') {
-    tempfile = path.join(dirname(), 'build.temp.cjs');
+    tempfile = path.join(dirname(), Math.round(Math.random() * 10e8) + '_build.temp.cjs');
     buildSync({
       entryPoints: [configPath],
       outfile: tempfile,

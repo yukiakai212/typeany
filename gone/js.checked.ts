@@ -3,10 +3,7 @@ export interface User {
   age;
 }
 
-/**
- * @param {any} name
- * @returns {any}
- */
+
 export function greet(name) {
   return name.length;
 }
@@ -39,3 +36,8 @@ export let ax;
 const fna = (a) => {
   return a;
 };
+export const { x: z, y } = { x: 10, y: 20 };
+export const { x: z, y } = { x: 10, y: 20 };
+function fd({ x: y, z }, [a, b]) {
+  return true;
+}

@@ -23,7 +23,7 @@ export async function runTypegone(config: TypegoneConfig) {
 
   for (const filePath of files) {
     const sourceFile = project.addSourceFileAtPath(filePath);
-    logger.debug(`Compile: ${filePath} `);
+    logger.info(`Compile: ${filePath} `);
 
     // Replace all explicit type annotations with "any"
     sourceFile.forEachDescendant((node) => {
@@ -156,7 +156,7 @@ export async function runTypegone(config: TypegoneConfig) {
         const param = node.asKindOrThrow(SyntaxKind.Parameter);
 
         // Skip parameter destructuring like function fn({x, y})
-        if (param.getNameNode().getKind() === SyntaxKind.ObjectBindingPattern) return;
+        //if (param.getNameNode().getKind() === SyntaxKind.ObjectBindingPattern) return;
 
         const typeNode = param.getTypeNode();
         if (config.stripTypes) {
@@ -232,18 +232,6 @@ export async function runTypegone(config: TypegoneConfig) {
               });
             }
           }
-
-          /*
-		  const updated = comment.replace(regex, replacement);
-
-          if (comment !== updated) {
-            replacements.push({
-              pos: range.getPos(),
-              end: range.getPos() + range.getWidth(),
-              updated,
-            });
-          }
-		  */
         });
       });
       for (const { pos, end, updated } of replacements) {

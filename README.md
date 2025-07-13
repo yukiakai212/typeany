@@ -6,11 +6,9 @@
 [![Build Status][github-build-url]][github-url]
 [![codecov][codecov-image]][codecov-url]
 
-> TypeScript is just JavaScript in a cosplay.
+> TypeScript is just JavaScript in a cosplay. `typegone` makes it real again.
 
-`typegone` is a CLI tool that **replaces all TypeScript type annotations with `any`** or **removes all TypeScript types**, including JSDoc types -  effectively turning your TS into JS.
-Despite replacing all types, it does **not modify the logic** of your code.
-- Can be used to simplify TypeScript into vanilla JavaScript by stripping out all type-related syntax — useful for prototyping, analysis, or tool integration.
+`typegone` is a compile-time conversion tool that **replaces all TypeScript type annotations with `any`**, or **removes them entirely**, including types from JSDoc — effectively turning your TypeScript into plain JavaScript.
 
 ---
 
@@ -21,7 +19,7 @@ Despite replacing all types, it does **not modify the logic** of your code.
 - ✅ Convert `as Something` to `as any`
 - ✅ Wipe out generics like `<T>`
 - ✅ Convert or remove JSDoc `{type}` annotations
-- ✅ File-based config (`typegone.config.js` or `.ts`)
+- ✅ File-based config (`typegone.config.js`)
 - ✅ Non-destructive: logic is preserved, just types are nuked
 
 ---
@@ -34,56 +32,70 @@ Despite replacing all types, it does **not modify the logic** of your code.
 npm install -D typegone
 ```
 
-### 2. Create a config file
+---
 
-- ✅ Supported extensions: `.ts`, `.js`, `.cjs`, `.mjs`
-- TypeGone will automatically detect the config file based on these extensions.
+### 2. Configuration - Create a config file
 
-Example `typegone.config.js`:
+TypeGone will automatically detect a config file with one of the following extensions:
 
-### ESM
+- `.ts`, `.js`, `.cjs`, `.mjs`
+
+You can define your config using either:
+- A **plain object**
+- Or with the helper `defineTypegoneConfig` (recommended for better DX in TypeScript)
+
+---
+
+#### ✅ Example: `typegone.config.js` (ESM)
+
+##### Using `defineTypegoneConfig` (recommended)
 
 ```js
-// With defineTypegoneConfig
 import { defineTypegoneConfig } from "typegone";
 
 export default defineTypegoneConfig({
   include: ["src/**/*.{ts,tsx}"],
   exclude: ["**/node_modules/**", "**/dist/**"],
   overwrite: false,
-  outDir: './build', // Output folder, files will be written here with the same structure
-  verbose: true,
-
-  convertJsDoc: true,     // Replace `{string}` → `{any}` in JSDoc
-  removeJsDocType: false, // If true, remove types entirely from JSDoc
-  aggressive: false       // Remove generics and inferred types
-  
+  outDir: "./typegone",             // Output folder with same structure
+  convertJsDoc: true,           // Convert `{string}` → `{any}` in JSDoc
+  removeJsDocType: false        // If true, remove all JSDoc types entirely
 });
+```
 
-// Or plain object export
+##### Or just a plain object (works too)
+
+```js
 export default {
   include: ["src/**/*.{ts,tsx}"],
   exclude: ["**/node_modules/**", "**/dist/**"]
 };
 ```
 
-### CommonJS
+---
+
+#### ✅ Example: `typegone.config.cjs` (CommonJS)
+
+##### Using `defineTypegoneConfig`
 
 ```js
-// With defineTypegoneConfig
 const { defineTypegoneConfig } = require("typegone");
 
 module.exports = defineTypegoneConfig({
   include: ["src/**/*.{ts,js}"],
   exclude: ["**/node_modules/**", "**/dist/**"]
 });
+```
 
-// Or plain object export
+##### Or plain object export
+
+```js
 module.exports = {
   include: ["src/**/*.{ts,tsx}"],
   exclude: ["**/node_modules/**", "**/dist/**"]
 };
 ```
+
 
 ---
 
@@ -154,10 +166,10 @@ function greet(name: any): any {
 ## 🤔 Why would you use this?
 
 - Converting JavaScript projects to TypeScript with permissive `any` types
-- Converting TypeScript projects back to plain JavaScript
-- Temporarily nuke types in a large codebase
-- Generate raw/untyped output for AI tools or analysis
-- Troll your teammates on a Friday 🤡
+- Converting TypeScript projects back to plain JavaScript.
+- Useful for prototyping, analysis, or tool integration.
+- Generate raw/untyped output for AI tools or analysis.
+- Troll your teammates on a Friday (Use at your own risk).
 
 ---
 
