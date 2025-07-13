@@ -173,9 +173,9 @@ function greet(name: any): any {
 
 ## 🤔 Why would you use this?
 
-- Converting JavaScript projects to TypeScript with permissive `any` types
-- Converting TypeScript projects back to plain JavaScript.
-- Useful for prototyping, analysis, or tool integration.
+- Help migrate a legacy JavaScript project to TypeScript by adding `any` everywhere.
+- Convert a TypeScript project to plain JavaScript for faster prototyping.
+- Strip types before bundling or processing with a tool that doesn't support TS.
 - Generate raw/untyped output for AI tools or analysis.
 - Troll your teammates on a Friday (Use at your own risk).
 
