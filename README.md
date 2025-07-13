@@ -10,15 +10,18 @@
 
 `typegone` is a codemod that **replaces all TypeScript type annotations with `any`**, or **removes them entirely**, including types from JSDoc — effectively turning your TypeScript back into plain JavaScript.
 
+It can also **add `any` to untyped JavaScript parameters**, effectively converting plain JS to *TypeScript with `any` everywhere.*
+
 ---
 
 ## 🚀 Features
 
-- ✅ Replace all type annotations (`: string`, `: number`, etc.) with `any`
-- ✅ Optionally remove type annotations entirely (turn TypeScript into pure JavaScript)
+- ✅ Replace all existing type annotations (`: string`, `: number`, etc.) with `any`
+- ✅ Add `: any` to untyped function parameters
 - ✅ Convert `as Something` to `as any`
 - ✅ Remove generics like `<T>`
 - ✅ Convert or remove JSDoc `{type}` annotations
+- ✅ Optionally remove all type annotations entirely (turn TypeScript into pure JavaScript)
 - ✅ Support file-based config (`typegone.config.js`)
 - ✅ **Non-destructive**: Only types are removed, logic stays the same
 
