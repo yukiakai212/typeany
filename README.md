@@ -14,13 +14,13 @@
 
 ## 🚀 Features
 
-- ✅ Replace all type annotations (`: string`, `: number`, etc.) with `: any`
-- ✅ Remove type annotations entirely (make it pure JavaScript)
+- ✅ Replace all type annotations (`: string`, `: number`, etc.) with `any`
+- ✅ Optionally remove type annotations entirely (turn TypeScript into pure JavaScript)
 - ✅ Convert `as Something` to `as any`
-- ✅ Wipe out generics like `<T>`
+- ✅ Remove generics like `<T>`
 - ✅ Convert or remove JSDoc `{type}` annotations
-- ✅ File-based config (`typegone.config.js`)
-- ✅ Non-destructive: logic is preserved, just types are nuked
+- ✅ Support file-based config (`typegone.config.js`)
+- ✅ **Non-destructive**: Only types are removed, logic stays the same
 
 ---
 
@@ -173,11 +173,11 @@ function greet(name: any): any {
 
 ## 🤔 Why would you use this?
 
-- Help migrate a legacy JavaScript project to TypeScript by adding `any` everywhere.
-- Convert a TypeScript project to plain JavaScript for faster prototyping.
-- Strip types before bundling or processing with a tool that doesn't support TS.
-- Generate raw/untyped output for AI tools or analysis.
-- Troll your teammates on a Friday (Use at your own risk).
+- Migrate a legacy JavaScript project to TypeScript **with permissive `any` everywhere** (for gradual typing).
+- Convert a TypeScript codebase back to plain JavaScript **for faster prototyping or delivery**.
+- Strip types before bundling or passing code to tools **that don't support TypeScript**.
+- Generate raw, untyped output **for AI models, code analysis, or codegen pipelines**.
+- Or just **troll your teammates on a Friday**. (Use at your own risk)
 
 ---
 
